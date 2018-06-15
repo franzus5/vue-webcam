@@ -96,9 +96,13 @@ const WebcamComponent = Vue.extend({
 
     if (navigator.getUserMedia) {
       navigator.getUserMedia({ video: true }, (stream) => {
-        this.src = window.URL.createObjectURL(stream);
-      this.stream = stream;
-      this.hasUserMedia = true;
+        try {
+          this.video.srcObject = stream;
+        } catch (error) {
+          this.src = window.URL.createObjectURL(stream);
+        }
+        this.stream = stream;
+        this.hasUserMedia = true;
     }, (error) => {
         console.log(error);
       });
